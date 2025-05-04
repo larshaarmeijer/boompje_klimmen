@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boompje Klimmen Scorebord</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <!-- Add hamburger button -->
+    <button id="menuBtn" style="position: fixed; top: 10px; right: 10px; z-index: 1000; font-size: 24px; background: none; border: none; cursor: pointer;">&#9776;</button>
+
+    <!-- Add Side Menu (initially hidden) -->
+    <div id="sideMenu" class="side-menu"> <!-- Use class for styling -->
+        <button id="closeMenuBtn" style="position: absolute; top: 15px; right: 15px; font-size: 20px; background: none; border: none; cursor: pointer;">&times;</button>
+        <ul style="list-style: none; padding: 0;">
+            <li style="padding: 10px 20px; border-bottom: 1px solid #eee;"><button id="penaltyBtn" style="background: none; border: none; color: #333; width: 100%; text-align: left; padding: 0;">Strafpunten Geven</button></li>
+            <li style="padding: 10px 20px; border-bottom: 1px solid #eee;"><button id="resetScoreBtn" style="background: none; border: none; color: #333; width: 100%; text-align: left; padding: 0;">Score(s) naar 0 Zetten</button></li>
+            <li style="padding: 10px 20px;"><button id="newGameBtn" style="background: none; border: none; color: #d9534f; width: 100%; text-align: left; padding: 0;">Nieuw Spel (Reset)</button></li>
+        </ul>
+    </div>
+
+    <h1>Boompje Klimmen Scorebord</h1>
+
+    <!-- Setup Screen -->
+    <div id="setupScreen" class="screen active">
+        <h2>Spelinstellingen</h2>
+        <div>
+            <label for="numPlayers">Aantal spelers:</label>
+            <!-- Replace input with select -->
+            <select id="numPlayers">
+                <option value="2">2</option>
+                <option value="3">3</option> <!-- Default to 3 -->
+                <option value="4">4</option>
+                <option value="5" selected>5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+        </div>
+        <div id="playerNamesContainer"></div>
+        <div>
+            <label for="maxRounds">Hoogste ronde:</label>
+            <select id="maxRounds">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7" selected>7</option>
+            </select>
+        </div>
+        <button id="startGameBtn">Start Spel</button>
+    </div>
+
+    <!-- Game Area (Parent for Bidding, Tricks, Round Result) -->
+    <div id="gameArea" style="display: none;">
+        <h2 id="roundInfo"></h2>
+
+        <!-- Bidding Screen -->
+        <div id="biddingScreen" class="screen">
+            <h3>Biedingen (<span id="cardsInRoundBid"></span> kaarten)</h3>
+            <div id="bidsContainer">
+                <!-- Bieding controls komen hier -->
+            </div>
+            <div class="total-bids">
+                Totaal geboden: <span id="totalBidsDisplay">0</span>
+            </div>
+            <button id="confirmBidsBtn">Bevestig Biedingen</button>
+        </div>
+
+        <!-- Tricks Screen -->
+        <div id="tricksScreen" class="screen">
+            <h3>Slagen (<span id="cardsInRoundTrick"></span> kaarten)</h3>
+            <div id="tricksContainer">
+                <!-- Slagen controls komen hier -->
+            </div>
+             <div class="total-tricks">
+                Totaal slagen: <span id="totalTricksDisplay">0</span>
+            </div>
+            <button id="confirmTricksBtn">Bevestig Slagen</button>
+        </div>
+
+        <!-- Round Result Screen -->
+        <div id="roundResultScreen" class="screen">
+            <h3>Uitslag Ronde <span id="roundResultNumber"></span></h3>
+            <table id="roundResultTable"></table>
+                <thead>
+                    <tr><th>Speler</th><th>Bod</th><th>Slagen</th><th>Score</th></tr>
+                </thead>
+                <tbody id="roundResultBody">
+                    <!-- Ronde resultaten komen hier -->
+                </tbody>
+            </table>
+            <button id="nextRoundBtn">Volgende Ronde</button>
+            <button id="endGameBtn" style="display: none;">Bekijk Eindscore</button>
+        </div>
+
+        <!-- Scoreboard Toggle Button -->
+        <button id="toggleScoreboardBtn">Scorebord</button>
+        <button id="toggleBidLogBtn">Biedlogboek</button> <!-- New Button -->
+    </div>
+
+    <!-- Scoreboard Screen -->
+    <div id="scoreboardScreen" class="screen">
+        <h2>Score Overzicht</h2>
+        <table id="scoreTable">
+            <thead>
+                <tr id="scoreHeader">
+                    <th>Ronde</th>
+                    <!-- Spelernamen komen hier -->
+                </tr>
+            </thead>
+            <tbody id="scoreBody">
+                <!-- Scores komen hier -->
+            </tbody>
+             <tfoot>
+                <tr id="scoreTotal">
+                    <td>Totaal</td>
+                    <!-- Totaalscores komen hier -->
+                </tr>
+            </tfoot>
+        </table>
+        <button id="hideScoreboardBtn">Verberg Scorebord</button>
+        <button id="toggleBidLogFromScoreboardBtn">Biedlogboek</button> <!-- New Button -->
+        <button id="startNextRoundFromScoreboardBtn" style="display: none;">Start Volgende Ronde</button>
+    </div>
+
+    <!-- Bid Log Screen (New) -->
+    <div id="bidLogScreen" class="screen">
+        <h2>Biedlogboek Overzicht</h2>
+        <table id="bidLogTable">
+            <thead>
+                <tr id="bidLogHeader">
+                    <th>Ronde</th>
+                    <!-- Spelernamen komen hier -->
+                </tr>
+            </thead>
+            <tbody id="bidLogBody">
+                <!-- Biedingen komen hier -->
+            </tbody>
+             <tfoot>
+                <tr id="bidLogTotal">
+                    <td>Totaal Geboden</td>
+                    <!-- Totaal geboden per speler komt hier -->
+                </tr>
+            </tfoot>
+        </table>
+        <button id="hideBidLogBtn">Verberg Biedlogboek</button>
+    </div>
+
+    <!-- Final Ranking Screen (New) -->
+    <div id="finalRankingScreen" class="screen">
+        <h2>Eindstand</h2>
+        <ol id="finalRankingList">
+            <!-- Ranking will be populated here -->
+        </ol>
+        <button id="viewScoreboardFromFinalBtn">Bekijk Scorebord</button>
+        <button id="viewBidLogFromFinalBtn">Bekijk Biedlogboek</button>
+        <button id="exportPdfBtn">Exporteer naar PDF</button> <!-- New Export Button -->
+        <button id="newGameFromFinalBtn" style="background-color: #d9534f;">Nieuw Spel</button>
+    </div>
+
+    <!-- Action Modal (initially hidden) -->
+    <div id="actionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1001; justify-content: center; align-items: center;">
+        <div style="background-color: white; padding: 30px; border-radius: 5px; min-width: 300px; max-width: 90%;">
+            <h3 id="modalTitle">Actie</h3>
+            <div id="modalFormContent">
+                <!-- Form content will be injected here -->
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <button id="confirmActionBtn" style="background-color: #5cb85c; margin-right: 10px;">Bevestig</button>
+                <button id="closeModalBtn" style="background-color: #aaa;">Annuleren</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

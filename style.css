@@ -1,0 +1,343 @@
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+h1, h2, h3 {
+    color: #333;
+}
+
+#setup, #game {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+label {
+    display: inline-block;
+    min-width: 120px;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"] {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 150px;
+}
+
+input[type="number"] {
+    width: 60px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+#bidsContainer div,
+#tricksContainer div {
+    margin-bottom: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tfoot tr {
+    font-weight: bold;
+    background-color: #e9e9e9;
+}
+
+.player-input-controls { /* Changed from player-input-controls to .player-input-controls */
+    display: grid; /* Use grid for alignment */
+    /* Columns: Label (fixed), Dec Btn (fixed), Input (fixed), Inc Btn (fixed), Optional Bid Display (auto) */
+    grid-template-columns: 120px 40px 50px 40px auto; /* Adjusted input column width */
+    align-items: center; /* Vertically center items in the row */
+    margin-bottom: 10px;
+    gap: 5px; /* Space between grid items */
+}
+
+.player-name-label {
+    text-align: right; /* Align text to the right within its grid cell */
+}
+
+.dealer-label {
+    font-weight: bold;
+}
+
+.adjust-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+    line-height: 1;
+    padding: 0;
+    text-align: center;
+}
+
+.player-input-controls input[type="number"] {
+    width: 50px; /* Increased width to match grid column */
+    text-align: center;
+    font-size: 1.2em;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    justify-self: center;
+}
+
+.player-input-controls input[type="number"]::-webkit-outer-spin-button,
+.player-input-controls input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.total-bids,
+.total-tricks {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* Ensure screens are hidden by default */
+.screen {
+    display: none; /* Hide all screens initially */
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Show the active screen */
+.screen.active {
+    display: block;
+}
+
+/* Add overflow for sticky positioning context */
+#scoreboardScreen, #bidLogScreen {
+    overflow: auto; /* Enable scrolling for sticky elements */
+    max-height: 70vh; /* Optional: Limit height for vertical scrolling */
+}
+
+/* Style for sticky header cells in scoreboard and bidlog */
+#scoreTable thead th, #bidLogTable thead th {
+    position: sticky;
+    top: 0; /* Stick to the top */
+    background-color: #f2f2f2;
+    z-index: 2; /* Above body cells */
+}
+
+/* Style for sticky total row cells in scoreboard and bidlog */
+#scoreTable tfoot td, #bidLogTable tfoot td {
+    position: sticky;
+    bottom: 0; /* Stick to the bottom */
+    background-color: #e9e9e9;
+    z-index: 2; /* Above body cells */
+}
+
+/* Menu Button */
+#menuBtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: #333;
+}
+#menuBtn:hover {
+    color: #000;
+}
+
+/* Side Menu */
+.side-menu { /* Updated class name */
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #f9f9f9;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    z-index: 999;
+    padding-top: 60px;
+    transform: translateX(100%); /* Start off-screen */
+    visibility: hidden; /* Hide initially */
+    opacity: 0; /* Fade out */
+    transition: transform 0.3s ease-in-out, visibility 0s 0.3s, opacity 0.3s ease-in-out; /* Transition transform, delay visibility change */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.side-menu.open { /* Updated class name */
+    transform: translateX(0); /* Slide in */
+    visibility: visible; /* Make visible */
+    opacity: 1; /* Fade in */
+    transition: transform 0.3s ease-in-out, visibility 0s 0s, opacity 0.3s ease-in-out; /* Transition immediately visible */
+}
+
+#sideMenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sideMenu li {
+    padding: 0; /* Remove padding from li */
+    border-bottom: 1px solid #eee;
+}
+#sideMenu li:last-child {
+    border-bottom: none;
+}
+
+#sideMenu button { /* Style buttons inside menu */
+    background: none;
+    border: none;
+    color: #333;
+    width: 100%;
+    text-align: left;
+    padding: 15px 20px; /* Add padding to buttons */
+    font-size: 1em;
+    cursor: pointer;
+}
+
+#sideMenu button:hover {
+    background-color: #eee;
+}
+
+/* Style the reset button specifically if needed, e.g., for color */
+#sideMenu #newGameBtn {
+    color: #d9534f; /* Keep the red color */
+}
+#sideMenu #newGameBtn:hover {
+    background-color: #eee; /* Ensure hover effect is consistent */
+}
+
+#closeMenuBtn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px; /* Larger close button */
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+    padding: 5px;
+}
+#closeMenuBtn:hover {
+    color: #333;
+}
+
+/* Action Modal */
+.modal { /* Updated class name */
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* Darker overlay */
+    z-index: 1001;
+    display: flex; /* Use flex for centering */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content { /* Updated class name */
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 8px;
+    min-width: 320px;
+    max-width: 500px; /* Limit max width */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    max-height: 85vh; /* Limit height to allow scrolling */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.modal-actions { /* Added class for modal actions */
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+#modalFormContent label {
+    display: block; /* Labels on their own line */
+    margin-bottom: 5px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#modalFormContent input[type="number"],
+#modalFormContent select {
+    width: 100%; /* Full width inputs/select */
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+#modalFormContent input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+#modalFormContent div { /* Spacing for checkbox groups */
+    margin-bottom: 8px;
+}
+
+/* Style adjustment rows in score table */
+#scoreBody td[style*="italic"] {
+    color: #666;
+    background-color: #f0f0f0; /* Slightly different background */
+}
+
+/* Final Ranking Screen Specific Styles */
+#finalRankingScreen ol {
+    list-style-type: none; /* Remove default numbering */
+    padding-left: 0;
+    margin-bottom: 20px;
+}
+
+#finalRankingScreen li {
+    font-size: 1.2em;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+#finalRankingScreen li:last-child {
+    border-bottom: none;
+}
+
+#finalRankingScreen button {
+    margin-top: 10px;
+}
