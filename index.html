@@ -2,9 +2,9 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale: 1.0">
     <title>Boompje Klimmen Scorebord</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 </head>
@@ -16,9 +16,13 @@
     <div id="sideMenu" class="side-menu"> <!-- Use class for styling -->
         <button id="closeMenuBtn" style="position: absolute; top: 15px; right: 15px; font-size: 20px; background: none; border: none; cursor: pointer;">&times;</button>
         <ul style="list-style: none; padding: 0;">
-            <li style="padding: 10px 20px; border-bottom: 1px solid #eee;"><button id="penaltyBtn" style="background: none; border: none; color: #333; width: 100%; text-align: left; padding: 0;">Strafpunten Geven</button></li>
-            <li style="padding: 10px 20px; border-bottom: 1px solid #eee;"><button id="resetScoreBtn" style="background: none; border: none; color: #333; width: 100%; text-align: left; padding: 0;">Score(s) naar 0 Zetten</button></li>
-            <li style="padding: 10px 20px;"><button id="newGameBtn" style="background: none; border: none; color: #d9534f; width: 100%; text-align: left; padding: 0;">Nieuw Spel (Reset)</button></li>
+            <li style="padding: 10px 20px; border-bottom: 1px solid #eee;"><button id="penaltyBtn" style="background: none; border: none; width: 100%; text-align: left;">Strafpunten Geven</button></li>
+            <li style="padding: 10px 20px; border-bottom: 1px solid #eee;"><button id="resetScoreBtn" style="background: none; border: none; width: 100%; text-align: left;">Score(s) naar 0 Zetten</button></li>
+            <li style="padding: 10px 20px; border-bottom: 1px solid #eee;"><button id="newGameBtn" style="background: none; border: none; width: 100%; text-align: left;">Nieuw Spel (Reset)</button></li>
+            <li style="padding: 10px 20px; border-bottom: 1px solid #eee; font-weight: bold; color: var(--menu-section-text-color, #555);">Thema</li>
+            <li style="padding: 0; border-bottom: 1px solid var(--menu-border-color, #eee);"><button id="themeLightBtn" class="theme-btn" style="background: none; border: none; color: var(--menu-link-text, #333); width: 100%; text-align: left; padding: 10px 20px 10px 30px;">Licht</button></li>
+            <li style="padding: 0; border-bottom: 1px solid var(--menu-border-color, #eee);"><button id="themeDarkBtn" class="theme-btn" style="background: none; border: none; color: var(--menu-link-text, #333); width: 100%; text-align: left; padding: 10px 20px 10px 30px;">Donker</button></li>
+            <li style="padding: 0;"><button id="themeKasteelBtn" class="theme-btn" style="background: none; border: none; color: var(--menu-link-text, #333); width: 100%; text-align: left; padding: 10px 20px 10px 30px;">Kasteel</button></li>
         </ul>
     </div>
 
@@ -54,6 +58,24 @@
                 <option value="5">5</option>
                 <option value="6">6</option>
                 <option value="7" selected>7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+        <div>
+            <label for="penaltyPointsValue">Straf- en Belongspunten:</label>
+            <select id="penaltyPointsValue">
+                <option value="2">2 punten</option>
+                <option value="3" selected>3 punten</option>
+                <option value="5">5 punten</option>
+            </select>
+        </div>
+        <div>
+            <label for="penaltyType">Type Straf (bij fout bod):</label>
+            <select id="penaltyType">
+                <option value="linear" selected>Lineair</option>
+                <option value="exponential">Exponentieel</option>
             </select>
         </div>
         <button id="startGameBtn">Start Spel</button>
@@ -168,19 +190,19 @@
     </div>
 
     <!-- Action Modal (initially hidden) -->
-    <div id="actionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1001; justify-content: center; align-items: center;">
-        <div style="background-color: white; padding: 30px; border-radius: 5px; min-width: 300px; max-width: 90%;">
+    <div id="actionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1001; justify-content: center; align-items: center;">
+        <div class="modal-content-box" style="padding: 30px; border-radius: 5px; min-width: 300px; max-width: 90%;">
             <h3 id="modalTitle">Actie</h3>
             <div id="modalFormContent">
                 <!-- Form content will be injected here -->
             </div>
             <div style="margin-top: 20px; text-align: right;">
-                <button id="confirmActionBtn" style="background-color: #5cb85c; margin-right: 10px;">Bevestig</button>
-                <button id="closeModalBtn" style="background-color: #aaa;">Annuleren</button>
+                <button id="confirmActionBtn" style="margin-right: 10px;">Bevestig</button>
+                <button id="closeModalBtn">Annuleren</button>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=1.1"></script>
 </body>
 </html>

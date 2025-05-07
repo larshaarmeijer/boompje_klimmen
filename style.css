@@ -1,53 +1,164 @@
+/* Theme Variables */
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #333;
+    --container-bg-color: #fff;
+    --container-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --input-border-color: #ccc;
+    --button-bg-color: #5cb85c;
+    --button-text-color: white;
+    --button-hover-bg-color: #4cae4c;
+    --table-border-color: #ddd;
+    --table-header-bg-color: #f2f2f2;
+    --table-even-row-bg-color: #f9f9f9;
+    --table-footer-bg-color: #e9e9e9;
+    --menu-bg-color: #f9f9f9;
+    --menu-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    --menu-link-text: #333;
+    --menu-link-hover-bg: #eee;
+    --menu-border-color: #eee;
+    --menu-section-text-color: #555;
+    --modal-overlay-bg: rgba(0,0,0,0.6);
+    --modal-content-bg: white;
+    --modal-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    --danger-text-color: #d9534f;
+    --dealer-label-font-weight: bold;
+    --total-display-font-weight: bold;
+    --italic-text-color: #666;
+    --italic-text-bg-color: #f0f0f0;
+    --final-rank-border-color: #eee;
+}
+
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --container-bg-color: #1e1e1e;
+    --container-shadow: 0 2px 4px rgba(255,255,255,0.05);
+    --input-border-color: #555;
+    --button-bg-color: #007bff;
+    --button-text-color: white;
+    --button-hover-bg-color: #0056b3;
+    --table-border-color: #444;
+    --table-header-bg-color: #2c2c2c;
+    --table-even-row-bg-color: #282828;
+    --table-footer-bg-color: #333;
+    --menu-bg-color: #1e1e1e;
+    --menu-shadow: -2px 0 5px rgba(255,255,255,0.1);
+    --menu-link-text: #e0e0e0;
+    --menu-link-hover-bg: #333;
+    --menu-border-color: #444;
+    --menu-section-text-color: #bbb;
+    --modal-overlay-bg: rgba(0,0,0,0.8);
+    --modal-content-bg: #1e1e1e;
+    --modal-shadow: 0 5px 15px rgba(255,255,255,0.1);
+    --danger-text-color: #ff6b6b;
+    --italic-text-color: #aaa;
+    --italic-text-bg-color: #2a2a2a;
+    --final-rank-border-color: #444;
+}
+
+body.kasteel-mode {
+    --bg-color: #800000;                     /* Bordeaux Red - Main Background */
+    --text-color: #ffd700;                   /* Yellow-Gold - Main Text */
+    --container-bg-color: #4a0404;           /* Deep Dark Bordeaux/Brown - for containers */
+    --container-shadow: 0 2px 6px rgba(0,0,0,0.4); /* Darker shadow for depth on red bg */
+    --input-border-color: #ffd700;           /* Gold */
+    --button-bg-color: #ffd700;              /* Gold */
+    --button-text-color: #800000;            /* Bordeaux Red */
+    --button-hover-bg-color: #e6b800;        /* Darker Gold for hover */
+    --table-border-color: #ffd700;           /* Gold */
+    --table-header-bg-color: #3b0303;        /* Very Dark Red, slightly lighter than container */
+    --table-header-text-color: #ffd700;      /* Gold */
+    --table-even-row-bg-color: #700000;      /* Lighter Bordeaux for striping, distinct from main bg */
+    --table-footer-bg-color: #3b0303;        /* Very Dark Red */
+    --table-footer-text-color: #ffd700;      /* Gold */
+    --menu-bg-color: #4a0404;                /* Deep Dark Bordeaux/Brown - same as container */
+    --menu-shadow: -2px 0 5px rgba(0,0,0,0.5); /* Darker shadow */
+    --menu-link-text: #ffd700;               /* Gold */
+    --menu-link-hover-bg: #660000;           /* Darker Bordeaux for hover */
+    --menu-border-color: #ffd700;            /* Gold */
+    --menu-section-text-color: #ffeb80;      /* Lighter Gold */
+    --modal-overlay-bg: rgba(0,0,0,0.8);     /* Darker overlay */
+    --modal-content-bg: #4a0404;             /* Deep Dark Bordeaux/Brown - same as container */
+    --modal-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Darker shadow */
+    --danger-text-color: #ff7f7f;            /* Bright Pink/Light Red for danger text on dark bg */
+    --dealer-label-font-weight: bold;
+    --total-display-font-weight: bold;
+    --italic-text-color: #ffdead;            /* Navajo White (light gold/beige for italics) */
+    --italic-text-bg-color: #700000;         /* Lighter Bordeaux for italic bg (subtle) */
+    --final-rank-border-color: #ffd700;      /* Gold */
+}
+
+body.kasteel-mode #sideMenu #newGameBtn {
+    color: var(--menu-link-text); /* Override to gold for Kasteel mode */
+}
+
 body {
     font-family: sans-serif;
     line-height: 1.6;
     margin: 20px;
-    background-color: #f4f4f4;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
 h1, h2, h3 {
-    color: #333;
+    color: var(--text-color);
 }
 
-#setup, #game {
-    background-color: #fff;
+#setup, #game, .screen {
+    background-color: var(--container-bg-color);
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: var(--container-shadow);
+    color: var(--text-color);
 }
 
 label {
     display: inline-block;
     min-width: 120px;
     margin-bottom: 5px;
+    color: var(--text-color);
 }
 
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+select {
     padding: 8px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border-color);
     border-radius: 3px;
     width: 150px;
+    background-color: var(--container-bg-color);
+    color: var(--text-color);
+}
+
+body.kasteel-mode input[type="text"],
+body.kasteel-mode input[type="number"],
+body.kasteel-mode select {
+    background-color: #600000; /* Slightly Lighter Dark Bordeaux for input fields */
+    color: #ffd700; /* Gold text */
+    border: 1px solid #ffd700; /* Gold border */
 }
 
 input[type="number"] {
     width: 60px;
 }
 
-button {
+button,
+.button-like {
     padding: 10px 15px;
-    background-color: #5cb85c;
-    color: white;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     border: none;
     border-radius: 3px;
     cursor: pointer;
     margin-right: 5px;
 }
 
-button:hover {
-    background-color: #4cae4c;
+button:hover,
+.button-like:hover {
+    background-color: var(--button-hover-bg-color);
 }
 
 #bidsContainer div,
@@ -62,39 +173,40 @@ table {
 }
 
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--table-border-color);
     padding: 8px;
     text-align: center;
+    color: var(--text-color);
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: var(--table-header-bg-color);
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: var(--table-even-row-bg-color);
 }
 
 tfoot tr {
     font-weight: bold;
-    background-color: #e9e9e9;
+    background-color: var(--table-footer-bg-color);
 }
 
-.player-input-controls { /* Changed from player-input-controls to .player-input-controls */
-    display: grid; /* Use grid for alignment */
-    /* Columns: Label (fixed), Dec Btn (fixed), Input (fixed), Inc Btn (fixed), Optional Bid Display (auto) */
-    grid-template-columns: 120px 40px 50px 40px auto; /* Adjusted input column width */
-    align-items: center; /* Vertically center items in the row */
+.player-input-controls {
+    display: grid;
+    grid-template-columns: 120px 40px 50px 40px auto;
+    align-items: center;
     margin-bottom: 10px;
-    gap: 5px; /* Space between grid items */
+    gap: 5px;
 }
 
 .player-name-label {
-    text-align: right; /* Align text to the right within its grid cell */
+    text-align: right;
+    color: var(--text-color);
 }
 
 .dealer-label {
-    font-weight: bold;
+    font-weight: var(--dealer-label-font-weight);
 }
 
 .adjust-btn {
@@ -104,15 +216,30 @@ tfoot tr {
     line-height: 1;
     padding: 0;
     text-align: center;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+}
+
+.adjust-btn:hover {
+    background-color: var(--button-hover-bg-color);
 }
 
 .player-input-controls input[type="number"] {
-    width: 50px; /* Increased width to match grid column */
+    width: 50px;
     text-align: center;
     font-size: 1.2em;
     -moz-appearance: textfield;
     appearance: textfield;
     justify-self: center;
+    background-color: var(--container-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--input-border-color);
+}
+
+body.kasteel-mode .player-input-controls input[type="number"] {
+    background-color: #600000; /* Slightly Lighter Dark Bordeaux */
+    color: #ffd700; /* Gold text */
+    border: 1px solid #ffd700; /* Gold border */
 }
 
 .player-input-controls input[type="number"]::-webkit-outer-spin-button,
@@ -124,47 +251,42 @@ tfoot tr {
 .total-bids,
 .total-tricks {
     margin-top: 15px;
-    font-weight: bold;
+    font-weight: var(--total-display-font-weight);
+    color: var(--text-color);
 }
 
-/* Ensure screens are hidden by default */
 .screen {
-    display: none; /* Hide all screens initially */
-    background-color: #fff;
+    display: none;
+    background-color: var(--container-bg-color);
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: var(--container-shadow);
 }
 
-/* Show the active screen */
 .screen.active {
     display: block;
 }
 
-/* Add overflow for sticky positioning context */
 #scoreboardScreen, #bidLogScreen {
-    overflow: auto; /* Enable scrolling for sticky elements */
-    max-height: 70vh; /* Optional: Limit height for vertical scrolling */
+    overflow: auto;
+    max-height: 70vh;
 }
 
-/* Style for sticky header cells in scoreboard and bidlog */
 #scoreTable thead th, #bidLogTable thead th {
     position: sticky;
-    top: 0; /* Stick to the top */
-    background-color: #f2f2f2;
-    z-index: 2; /* Above body cells */
+    top: 0;
+    background-color: var(--table-header-bg-color);
+    z-index: 2;
 }
 
-/* Style for sticky total row cells in scoreboard and bidlog */
 #scoreTable tfoot td, #bidLogTable tfoot td {
     position: sticky;
-    bottom: 0; /* Stick to the bottom */
-    background-color: #e9e9e9;
-    z-index: 2; /* Above body cells */
+    bottom: 0;
+    background-color: var(--table-footer-bg-color);
+    z-index: 2;
 }
 
-/* Menu Button */
 #menuBtn {
     position: fixed;
     top: 10px;
@@ -175,35 +297,35 @@ tfoot tr {
     border: none;
     cursor: pointer;
     padding: 5px;
-    color: #333;
-}
-#menuBtn:hover {
-    color: #000;
+    color: var(--text-color);
 }
 
-/* Side Menu */
-.side-menu { /* Updated class name */
+#menuBtn:hover {
+    color: var(--button-hover-bg-color);
+}
+
+.side-menu {
     position: fixed;
     top: 0;
     right: 0;
     width: 250px;
     height: 100%;
-    background-color: #f9f9f9;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    background-color: var(--menu-bg-color);
+    box-shadow: var(--menu-shadow);
     z-index: 999;
     padding-top: 60px;
-    transform: translateX(100%); /* Start off-screen */
-    visibility: hidden; /* Hide initially */
-    opacity: 0; /* Fade out */
-    transition: transform 0.3s ease-in-out, visibility 0s 0.3s, opacity 0.3s ease-in-out; /* Transition transform, delay visibility change */
-    overflow-y: auto; /* Enable vertical scrolling if needed */
+    transform: translateX(100%);
+    visibility: hidden;
+    opacity: 0;
+    transition: transform 0.3s ease-in-out, visibility 0s 0.3s, opacity 0.3s ease-in-out;
+    overflow-y: auto;
 }
 
-.side-menu.open { /* Updated class name */
-    transform: translateX(0); /* Slide in */
-    visibility: visible; /* Make visible */
-    opacity: 1; /* Fade in */
-    transition: transform 0.3s ease-in-out, visibility 0s 0s, opacity 0.3s ease-in-out; /* Transition immediately visible */
+.side-menu.open {
+    transform: translateX(0);
+    visibility: visible;
+    opacity: 1;
+    transition: transform 0.3s ease-in-out, visibility 0s 0s, opacity 0.3s ease-in-out;
 }
 
 #sideMenu ul {
@@ -213,117 +335,208 @@ tfoot tr {
 }
 
 #sideMenu li {
-    padding: 0; /* Remove padding from li */
-    border-bottom: 1px solid #eee;
+    padding: 0;
+    border-bottom: 1px solid var(--menu-border-color);
 }
+
 #sideMenu li:last-child {
     border-bottom: none;
 }
 
-#sideMenu button { /* Style buttons inside menu */
+#sideMenu button {
     background: none;
     border: none;
-    color: #333;
+    color: var(--menu-link-text);
     width: 100%;
     text-align: left;
-    padding: 15px 20px; /* Add padding to buttons */
+    padding: 15px 20px; /* Standardized padding */
     font-size: 1em;
     cursor: pointer;
 }
 
 #sideMenu button:hover {
-    background-color: #eee;
+    background-color: var(--menu-link-hover-bg);
 }
 
-/* Style the reset button specifically if needed, e.g., for color */
 #sideMenu #newGameBtn {
-    color: #d9534f; /* Keep the red color */
+    color: var(--danger-text-color);
 }
+
+body.kasteel-mode #sideMenu #newGameBtn {
+    color: var(--menu-link-text); /* Override to gold for Kasteel mode */
+}
+
 #sideMenu #newGameBtn:hover {
-    background-color: #eee; /* Ensure hover effect is consistent */
+    background-color: var(--menu-link-hover-bg);
 }
 
 #closeMenuBtn {
     position: absolute;
     top: 15px;
     right: 15px;
-    font-size: 24px; /* Larger close button */
+    font-size: 24px;
     background: none;
     border: none;
     cursor: pointer;
-    color: #888;
+    color: var(--menu-link-text);
     padding: 5px;
 }
+
 #closeMenuBtn:hover {
-    color: #333;
+    color: var(--text-color);
 }
 
-/* Action Modal */
-.modal { /* Updated class name */
-    display: none; /* Hidden by default */
+.modal {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.6); /* Darker overlay */
+    background-color: var(--modal-overlay-bg);
     z-index: 1001;
-    display: flex; /* Use flex for centering */
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.modal-content { /* Updated class name */
-    background-color: white;
+.modal-content {
+    background-color: var(--modal-content-bg);
     padding: 25px 30px;
     border-radius: 8px;
     min-width: 320px;
-    max-width: 500px; /* Limit max width */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    max-height: 85vh; /* Limit height to allow scrolling */
-    overflow-y: auto; /* Enable vertical scrolling if needed */
+    max-width: 500px;
+    box-shadow: var(--modal-shadow);
+    max-height: 85vh;
+    overflow-y: auto;
+    color: var(--text-color);
 }
 
-.modal-actions { /* Added class for modal actions */
+.modal-content-box {
+    background-color: var(--modal-content-bg);
+    padding: 25px 30px;
+    border-radius: 8px;
+    min-width: 320px;
+    max-width: 500px;
+    box-shadow: var(--modal-shadow);
+    max-height: 85vh;
+    overflow-y: auto;
+    color: var(--text-color); /* Ensure modal text is themed */
+}
+
+.modal-content-box h3 {
+    color: var(--text-color);
+    margin-top: 0; /* Adjust as needed */
+}
+
+.modal-content-box label {
+    color: var(--text-color);
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.modal-content-box input[type="number"],
+.modal-content-box select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 3px;
+    box-sizing: border-box;
+    background-color: var(--container-bg-color); /* Theme modal inputs */
+    color: var(--text-color);
+}
+
+body.dark-mode .modal-content-box input[type="number"],
+body.dark-mode .modal-content-box select {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+body.kasteel-mode .modal-content-box input[type="number"],
+body.kasteel-mode .modal-content-box select {
+    background-color: #600000; /* Slightly Lighter Dark Bordeaux */
+    color: #ffd700; /* Gold text */
+    border: 1px solid #ffd700; /* Gold border */
+}
+
+.modal-content-box input[type="checkbox"] {
+    margin-right: 8px;
+    /* Basic styling, can be enhanced */
+}
+
+.modal-content-box div {
+    margin-bottom: 8px;
+}
+
+.modal-content-box button {
+    /* Buttons inside modal already themed by general button styles */
+    /* If specific modal button styling is needed, add here */
+    margin-right: 10px;
+}
+
+.modal-content-box button:last-child {
+    margin-right: 0;
+}
+
+.modal-actions {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
 }
 
 #modalFormContent label {
-    display: block; /* Labels on their own line */
+    display: block;
     margin-bottom: 5px;
     margin-top: 10px;
     font-weight: bold;
+    color: var(--text-color);
 }
 
 #modalFormContent input[type="number"],
 #modalFormContent select {
-    width: 100%; /* Full width inputs/select */
+    width: 100%;
     padding: 8px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border-color);
     border-radius: 3px;
-    box-sizing: border-box; /* Include padding in width */
+    box-sizing: border-box;
+    background-color: var(--container-bg-color); /* Theme modal inputs */
+    color: var(--text-color);
+}
+
+body.dark-mode #modalFormContent input[type="number"],
+body.dark-mode #modalFormContent select {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+body.kasteel-mode #modalFormContent input[type="number"],
+body.kasteel-mode #modalFormContent select {
+    background-color: #600000; /* Slightly Lighter Dark Bordeaux */
+    color: #ffd700; /* Gold text */
+    border: 1px solid #ffd700; /* Gold border */
 }
 
 #modalFormContent input[type="checkbox"] {
     margin-right: 8px;
 }
 
-#modalFormContent div { /* Spacing for checkbox groups */
+#modalFormContent div {
     margin-bottom: 8px;
 }
 
-/* Style adjustment rows in score table */
 #scoreBody td[style*="italic"] {
-    color: #666;
-    background-color: #f0f0f0; /* Slightly different background */
+    color: var(--italic-text-color);
+    background-color: var(--italic-text-bg-color);
 }
 
-/* Final Ranking Screen Specific Styles */
 #finalRankingScreen ol {
-    list-style-type: none; /* Remove default numbering */
+    list-style-type: none;
     padding-left: 0;
     margin-bottom: 20px;
 }
@@ -331,7 +544,8 @@ tfoot tr {
 #finalRankingScreen li {
     font-size: 1.2em;
     padding: 8px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--final-rank-border-color);
+    color: var(--text-color);
 }
 
 #finalRankingScreen li:last-child {

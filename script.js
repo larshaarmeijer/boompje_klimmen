@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const numPlayersInput = document.getElementById('numPlayers');
     const playerNamesContainer = document.getElementById('playerNamesContainer');
     const maxRoundsInput = document.getElementById('maxRounds');
+    const penaltyPointsValueInput = document.getElementById('penaltyPointsValue'); // New
+    const penaltyTypeInput = document.getElementById('penaltyType'); // New
     const startGameBtn = document.getElementById('startGameBtn');
     const newGameBtn = document.getElementById('newGameBtn');
     const roundInfoHeading = document.getElementById('roundInfo');
@@ -48,6 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewScoreboardFromFinalBtn = document.getElementById('viewScoreboardFromFinalBtn');
     const viewBidLogFromFinalBtn = document.getElementById('viewBidLogFromFinalBtn');
 
+    // Theme buttons
+    const themeLightBtn = document.getElementById('themeLightBtn');
+    const themeDarkBtn = document.getElementById('themeDarkBtn');
+    const themeKasteelBtn = document.getElementById('themeKasteelBtn');
+
     let players = [];
     let maxCards = 0;
     let rounds = [];
@@ -59,8 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let dealerIndex = 0;
     let gameState = 'setup';
     let scoreAdjustments = [];
+    let penaltyPointsSetting = 3; // New: Default penalty points
+    let penaltyTypeSetting = 'linear'; // New: Default penalty type
 
     const STORAGE_KEY = 'boompjeKlimmenGameState';
+    const THEME_STORAGE_KEY = 'boompjeKlimmenTheme';
 
     function saveGameState() {
         const stateToSave = {
@@ -74,7 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
             bidTotals,
             dealerIndex,
             scoreAdjustments,
-            gameState
+            gameState,
+            penaltyPointsSetting, // New
+            penaltyTypeSetting // New
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
         console.log("Game state saved.");
@@ -96,6 +108,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 dealerIndex = state.dealerIndex || 0;
                 scoreAdjustments = state.scoreAdjustments || [];
                 gameState = state.gameState || 'setup';
+                if (state.penaltyPointsSetting !== undefined) penaltyPointsSetting = state.penaltyPointsSetting; // New
+                if (state.penaltyTypeSetting !== undefined) penaltyTypeSetting = state.penaltyTypeSetting; // New
+
+                // Restore UI elements based on loaded settings
+                numPlayersInput.value = players.length || 3;
+                maxRoundsInput.value = maxCards || 7;
+                penaltyPointsValueInput.value = penaltyPointsSetting || 3; // New
+                penaltyTypeInput.value = penaltyTypeSetting || 'linear'; // New
 
                 console.log("Game state loaded:", gameState);
 
@@ -118,13 +138,37 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             console.log("No saved game state found.");
+            applyTheme('light'); // Apply light theme by default if no saved state
             showScreen('setup');
+        }
+        loadTheme(); // Load theme after game state
+    }
+
+    function applyTheme(themeName) {
+        document.body.classList.remove('dark-mode', 'kasteel-mode'); // Remove any existing theme
+        if (themeName === 'dark') {
+            document.body.classList.add('dark-mode');
+        } else if (themeName === 'kasteel') {
+            document.body.classList.add('kasteel-mode');
+        }
+        // Light mode is default (no class needed or explicitly set 'light-mode' if you have one)
+        localStorage.setItem(THEME_STORAGE_KEY, themeName);
+        console.log("Theme applied:", themeName);
+    }
+
+    function loadTheme() {
+        const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        } else {
+            applyTheme('light'); // Default to light theme if nothing is saved
         }
     }
 
     function resetGame() {
         if (confirm("Weet je zeker dat je een nieuw spel wilt starten? Alle huidige voortgang gaat verloren.")) {
             localStorage.removeItem(STORAGE_KEY);
+            applyTheme('light'); // Explicitly set to light theme on reset
             resetGameVariables();
             playerNamesContainer.innerHTML = '';
             scoreHeader.innerHTML = '<th>Ronde</th>';
@@ -135,6 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
             bidLogTotal.innerHTML = '<td>Totaal Geboden</td>';
             numPlayersInput.value = 3;
             maxRoundsInput.value = 7;
+            penaltyPointsValueInput.value = 3; // New
+            penaltyTypeInput.value = 'linear'; // New
             updatePlayerNameInputs();
             finalRankingScreen.style.display = 'none';
             showScreen('setup');
@@ -154,6 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dealerIndex = 0;
         scoreAdjustments = [];
         gameState = 'setup';
+        penaltyPointsSetting = 3; // Reset to default
+        penaltyTypeSetting = 'linear'; // Reset to default
     }
 
     function showScreen(screenName) {
@@ -327,10 +375,14 @@ document.addEventListener('DOMContentLoaded', () => {
         maxCards = parseInt(maxRoundsInput.value);
         if (isNaN(maxCards) || maxCards < 1) {
             alert("Voer een geldig maximum aantal kaarten in.");
-            resetGameVariables();
+            resetGameVariables(); // Ensure settings are also reset
             showScreen('setup');
             return;
         }
+
+        // Get penalty settings
+        penaltyPointsSetting = parseInt(penaltyPointsValueInput.value);
+        penaltyTypeSetting = penaltyTypeInput.value;
 
         dealerIndex = 0;
         generateRounds();
@@ -679,10 +731,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let score = 0;
             if (bid === tricks) {
-                score = 10 + (tricks * 3);
+                score = 10 + (tricks * penaltyPointsSetting);
             } else {
-                const difference = Math.abs(bid - tricks);
-                score = -(difference * 3);
+                const diff = Math.abs(bid - tricks);
+                if (penaltyTypeSetting === 'exponential') {
+                    score = -Math.pow(penaltyPointsSetting, diff);
+                } else { // linear
+                    score = -penaltyPointsSetting * diff;
+                }
             }
             roundScores[name] = score;
         });
@@ -1099,6 +1155,28 @@ document.addEventListener('DOMContentLoaded', () => {
         showScreen('bidlog');
     });
 
+    // Theme button listeners
+    themeLightBtn.addEventListener('click', () => {
+        applyTheme('light');
+        sideMenu.classList.remove('open');
+    });
+    themeDarkBtn.addEventListener('click', () => {
+        applyTheme('dark');
+        sideMenu.classList.remove('open');
+    });
+    themeKasteelBtn.addEventListener('click', () => {
+        applyTheme('kasteel');
+        sideMenu.classList.remove('open');
+    });
+
     updatePlayerNameInputs();
-    loadGameState();
+    loadGameState(); // This will also call loadTheme
+
+    // Ensure settings are reflected on initial load if no saved state
+    if (!localStorage.getItem(STORAGE_KEY)) {
+        maxRoundsInput.value = 7;
+        penaltyPointsValueInput.value = 3;
+        penaltyTypeInput.value = 'linear';
+        applyTheme('light'); // Ensure light theme is applied on first load without saved state
+    }
 });
